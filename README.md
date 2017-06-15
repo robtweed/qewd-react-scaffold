@@ -24,25 +24,46 @@ The benefit is that using this scaffold cuts out the main work in creating the f
 lead-in for your applications (assuming you're happy with the UI look and feel).
 
 
-# How to Use
+# How to Install
 
-1) Clone the repository.
+## Quick Worked Example (on a new Ubuntu 16.04 system)
 
-2) Create a new QEWD.js application folder, eg:
+### Install QEWD.js + GT.M database:
 
-     cd ~/qewd/www
-     mkdir myNewApp
+        cd ~
+        wget https://raw.githubusercontent.com/robtweed/qewd/master/installers/install_gtm.sh
+        source install_gtm.sh
 
-3) Copy the contents of the repo's www directory into your new application folder
+### Clone the qewd-react-scaffold Github repo
 
-4) Create a file named app.js in your application folder - this will define your configuration
-for your particular application.
+        cd ~
+        git clone https://github.com/robtweed/qewd-react-scaffold
 
-See the repo's /example directory for a worked example.  This contains:
+### Create new QEWD application directory
 
-- an example app.js, showing how you define an application
-- backend.js which is an example of the back-end QEWD.js module for your application, defining the message handler functions.  Copy this to your ~/qewd/node_modules directory and rename it to correspond with the application name you define in your app.js file's *applicationName* property.
+        cd qewd/www
+        mkdir testapp
+        cd testapp
 
+### Copy the scaffold files into the right locations
+
+        cp ~/qewd-react-scaffold/www/* .
+        cp ~/qewd-react-scaffold/example/app.js .
+        cp ~/qewd-react-scaffold/example/TestContent.js .
+        cp ~/qewd-react-scaffold/example/backend.js ~/qewd/node_modules/testapp.js
+
+### Change the name of the application in the app.js file
+
+        var reactLoader = require('qewd-react').loader;
+        
+        var params = {
+          applicationName: 'testapp',
+          ... etc
+
+## Notes
+
+The app.js file defines the configuration for your particular application.  Edit the example version 
+to meet your needs
 
 In the app.js example you'll see this section:
 
@@ -58,9 +79,9 @@ In the app.js example you'll see this section:
           }
         }, ...etc
 
-This adds a Nav to the banner with the text "Main" and makes it the default main panel to appear after a successful login.  The contents of the panel are defined by a React component named TestContent (the name of the module is up to you).  In the /example directory you'll see a simple version of this TestContent.js component - it simply creates a grid display with 3 empty columns.  
+This adds a Nav to the banner with the text "Main" and makes it the default main panel to appear after a successful login.  The contents of the panel are defined by a React component named TestContent (the name of the module is up to you).  In the /example directory you'll see a simple version of this TestContent.js component - it simply creates a grid display with 3 empty columns.  If you followed the commands above, that file should now be in your *testapp* directory.
 
-You build out your application from this initial component and via any other Navs that you want to define.
+You build out your application from this content component and via any other Navs that you want to define.
 
 # Additional Stuff you'll Need
 
@@ -103,7 +124,9 @@ Try the application out in your browser:
 
         Note: Change the IP address and port to match your QEWD.js setup.
 
-Note: every time you make a change to your components, you must re-bundle.
+Login with any username.  For the password, use your QEWD.js management password, eg *keepThisSecret!*
+
+Note: when developing out your application, every time you make a change to your components, you must re-bundle using the *browserify* command above.
 
 
 ## License
