@@ -24,7 +24,7 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  4 January 2018
+  5 January 2018
 
 */
 
@@ -32,12 +32,10 @@
 
 var React = require('react');
 var createReactClass = require('create-react-class');
-var ReactToastr = require('react-toastr');
 var jQuery = require('jquery');
 window.$ = window.jQuery = jQuery;
 
-var {ToastContainer} = ReactToastr;
-var ToastMessageFactory = React.createFactory(ReactToastr.ToastMessage.animation);
+import { ToastContainer } from "react-toastr"
 
 var Banner = require('./Banner');
 var Content = require('./Content');
@@ -87,7 +85,6 @@ var MainPage = createReactClass({
 
         <ToastContainer 
           ref="toastContainer"
-          toastMessageFactory={ToastMessageFactory}
           className="toast-top-right"
           newestOnTop={true}
           target="body"
