@@ -28,11 +28,11 @@ lead-in for your applications (assuming you're happy with the UI look and feel).
 
 ## Quick Worked Example (on a new Ubuntu 16.04 system)
 
-### Install QEWD.js + GT.M database:
+### Install QEWD.js + YottaDB database (if you haven't already done so):
 
         cd ~
-        wget https://raw.githubusercontent.com/robtweed/qewd/master/installers/install_gtm.sh
-        source install_gtm.sh
+        wget https://raw.githubusercontent.com/robtweed/qewd/master/installers/install_yottadb.sh
+        source install_yottadb.sh
 
 ### Clone the qewd-react-scaffold Github repo
 
@@ -94,9 +94,7 @@ In summary, you'll need to do the following to install the necessary stuff:
 - Do the following:
 
         cd ~/qewd
-        npm install react react-dom babelify babel-preset-react react-bootstrap 
-        npm install react-toastr react-select socket.io-client
-        npm install jquery ewd-client ewd-react-tools qewd-react
+        npm install babel-core babelify babel-preset-react qewd-react
         npm install -g browserify
         npm install -g uglify-js
 

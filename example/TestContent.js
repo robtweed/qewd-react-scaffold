@@ -1,10 +1,10 @@
 /*
 
  ------------------------------------------------------------------------------------
- | qewd-monitor: React.js-based Monitor/Management Application for QEWD             |
+ | qewd-react-scaffold: React.js-based QEWD application scaffolding                 |
  |                                                                                  |
- | Copyright (c) 2017 M/Gateway Developments Ltd,                                   |
- | Reigate, Surrey UK.                                                              |
+ | Copyright (c) 2017-18 M/Gateway Developments Ltd,                                |
+ | Redhill, Surrey UK.                                                              |
  | All rights reserved.                                                             |
  |                                                                                  |
  | http://www.mgateway.com                                                          |
@@ -24,13 +24,14 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  3 January 2016
+  4 January 2018
 
 */
 
 "use strict"
 
 var React = require('react');
+var createReactClass = require('create-react-class');
 var ReactBootstrap = require('react-bootstrap');
 
 var {
@@ -44,7 +45,7 @@ var {
   Tooltip
 } = ReactBootstrap;
 
-var TestContent = React.createClass({
+var TestContent = createReactClass({
 
   getInitialState: function() {
     return {
