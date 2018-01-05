@@ -24,7 +24,7 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  4 January 2018
+  5 January 2018
 
 */
 
@@ -53,9 +53,6 @@ var Pane = createReactClass({
   componentWillMount: function() {
 
     this.controller = require('./controller-Panel')(this.props.controller, this);
-    this.title = (
-      <h1>{this.titleText}</h1>
-    );
 
     if (this.props.content) {
       //console.log('this.props.content exists');
@@ -79,24 +76,38 @@ var Pane = createReactClass({
 
     //var componentPath = this.controller.updateComponentPath(this);
 
+    //console.log('Panel props: ' + JSON.stringify(this.props));
+
     var props = {
       controller: this.controller
     };
 
     return (
       <Panel
-        collapsible
         expanded={this.expanded}
-        header={this.title}
         bsStyle={this.props.bsStyle}
+        onToggle={this.onToggle}
       >
-        <Grid
-          fluid = {true}
-        >
-          <Row>
-            {this.content}
-          </Row>
-        </Grid>
+
+        <Panel.Heading>
+          <Panel.Title 
+            componentClass={this.props.titleComponentClass}
+          >
+            {this.titleText}
+          </Panel.Title>
+        </Panel.Heading>
+
+        <Panel.Collapse>
+          <Panel.Body>
+            <Grid
+              fluid = {true}
+            >
+              <Row>
+                {this.content}
+              </Row>
+            </Grid>
+          </Panel.Body>
+        </Panel.Collapse>
       </Panel>
     );
   }

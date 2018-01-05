@@ -24,7 +24,7 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  4 January 2018
+  5 January 2018
 
 */
 
@@ -87,6 +87,7 @@ var Content = createReactClass({
             hideByDefault = {hideByDefault}
             key = {count}
             panelTitle = {nav.panel.title}
+            panelTitleComponentClass = {nav.panel.titleComponentClass}
             panelInitiallyExpanded = {expanded}
             panelBsStyle = {nav.panel.bsStyle}
             panelContentComponent = {nav.panel.contentComponent}

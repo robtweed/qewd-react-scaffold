@@ -24,7 +24,7 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  7 February 2017
+  5 January 2018
 
 */
 
@@ -116,6 +116,7 @@ module.exports = function (controller, component) {
     if (!nav.panel) nav.panel = {};
     if (!nav.panel.bsStyle) nav.panel.bsStyle = 'primary';
     if (!nav.panel.title) nav.panel.title = nav.text + ' Panel';
+    if (!nav.panel.titleComponentClass) nav.panel.titleComponentClass = 'h3';
   });
 
   if (component.navs.length === 1) {

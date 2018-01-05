@@ -24,7 +24,7 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  9 February 2017
+  5 January 2018
 
 */
 
@@ -36,6 +36,8 @@ module.exports = function (controller, component) {
 
   component.expanded = component.props.expanded;
   component.titleText = component.props.title;
+
+  component.onToggle = function() {};
 
   return controller;
 };

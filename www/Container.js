@@ -24,7 +24,7 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  4 January 2018
+  5 January 2018
 
 */
 
@@ -74,6 +74,7 @@ var Container = createReactClass({
             <Panel
               controller = {this.controller}
               title = {this.props.panelTitle}
+              titleComponentClass = {this.props.panelTitleComponentClass}
               expanded = {this.props.panelInitiallyExpanded}
               bsStyle = {this.props.panelBsStyle}
               content = {this.props.panelContentComponent}
