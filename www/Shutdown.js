@@ -24,7 +24,7 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  4 January 2018
+ 10 September 2018
 
 */
 
@@ -45,7 +45,7 @@ module.exports = createReactClass({
   },
 
   componentWillMount: function() {
-    this.controller = require('./controller-Shutdown')(this.props.controller, this);
+    this.controller = require('./controller-Shutdown').call(this, this.props.controller);
   },
 
   render: function() {

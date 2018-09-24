@@ -24,7 +24,7 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  4 January 2018
+ 10 September 2018
 
 */
 
@@ -34,12 +34,9 @@ var React = require('react');
 var createReactClass = require('create-react-class');
 var ReactBootstrap = require('react-bootstrap');
 
-
 var {
   Button,
-  Modal,
-  ModalTrigger,
-  OverlayMixin
+  Modal
 } = ReactBootstrap;
 
 var LoginField = require('./LoginField');
@@ -47,55 +44,59 @@ var LoginField = require('./LoginField');
 var LoginModal = createReactClass({
 
   componentWillMount: function() {
-    this.controller = require('./controller-LoginModal')(this.props.controller, this);
+    this.controller = require('./controller-LoginModal').call(this, this.props.controller);
   },
 
   render: function() {
 
     //console.log('LoginModal rendering');
-    //var componentPath = this.controller.updateComponentPath(this);
+    //var componentPath = this.controller.updateComponentPath.call(this);
+
+    if (this.props.hideUsername) {
+      this.modalTitle = 'Login with the QEWD Management Password';
+      this.username = 'dummy';
+    }
 
     return (
 
-        <Modal
-          show={this.props.show}
-          backdrop='static'
-          bsStyle='primary' 
-          animation={true} 
-          onKeyPress={this.handleKeyDown}
-        >
+      <Modal
+        show={this.props.show}
+        backdrop='static'
+        bsStyle='primary' 
+        animation={true} 
+        onKeyPress={this.handleKeyDown}
+      >
 
-          <Modal.Header>
-            <Modal.Title>{this.modalTitle}</Modal.Title>
-          </Modal.Header>
+        <Modal.Header>
+          <Modal.Title>{this.modalTitle}</Modal.Title>
+        </Modal.Header>
 
-          <Modal.Body>
+        <Modal.Body>
+          <LoginField
+            placeholder={this.username.placeholder}
+            fieldname='username'
+            label={this.username.label}
+            type='text'
+            controller = {this.controller}
+            focus={true}
+            hide = {this.props.hideUsername}
+          />
 
-            <LoginField
-              placeholder={this.username.placeholder}
-              fieldname='username'
-              label={this.username.label}
-              type='text'
-              controller = {this.controller}
-              focus={true}
-            />
+          <LoginField
+            placeholder={this.password.placeholder}
+            fieldname='password'
+            type='password'
+            label={this.password.label} 
+            controller = {this.controller}
+          />
 
-            <LoginField
-              placeholder={this.password.placeholder}
-              fieldname='password'
-              type='password'
-              label={this.password.label} 
-              controller = {this.controller}
-            />
+        </Modal.Body>
 
-          </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={this.handleLogin} bsStyle='primary'>Login</Button>
+        </Modal.Footer>
 
-          <Modal.Footer>
-            <Button onClick={this.handleLogin} bsStyle='primary'>Login</Button>
-          </Modal.Footer>
-
-        </Modal>
-
+      </Modal>
     )
   }
 });

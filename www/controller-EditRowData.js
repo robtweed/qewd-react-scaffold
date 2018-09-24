@@ -28,63 +28,52 @@
 
 */
 
-"use strict"
+module.exports = function (controller) {
 
-var React = require('react');
-var createReactClass = require('create-react-class');
-var ReactBootstrap = require('react-bootstrap');
-var {
-  Grid,
-  Row,
-  Col
-} = ReactBootstrap;
+  var self = this;
 
-var Panel = require('./Panel');
+  this.cancel = function() {
+    self.controller.emit('cancelEditRowData');      
+  };
 
-var Container = createReactClass({
-
-  getInitialState: function() {
-    return {
-      status: 'initial'
+  controller.EditRowData = {
+    onFieldChange: function(inputObj) {
+      console.log('onFieldChange - ' + inputObj.ref + '; ' + inputObj.value);
+      self[inputObj.ref] = inputObj.value;
     }
-  },
+  };
 
-  componentWillMount: function() {
-    this.controller = require('./controller-Container').call(this, this.props.controller);
-  },
+  this.handleKeyDown = function(e) {
+    // enter key pressed
+    if (e.charCode === 13) {
+      self.saveRowData();
+    }
+  };
 
-  componentWillReceiveProps: function(newProps) {
-    this.onNewProps(newProps);
-  },
+  this.saveRowData = function() {
 
-  render: function() {
+    var id = self.props.data.id || '';
 
-    //var componentPath = this.controller.updateComponentPath(this);
-    //console.log('OverviewContainer - this.hideContainer = ' + this.hideContainer);
+    // .. validate each data property, eg:
 
-    console.log('Container props: ' + JSON.stringify(this.props));
+    if (typeof self.property_1 !== 'string' || self.property_1 === '') {
+      controller.displayError('You must enter a Property 1');
+      return;
+    }
 
-    return (
-      <Grid
-        fluid = {true}
-        className = {this.hideContainer ? 'hidden' : ''}
-      >
-        <Row>
-          <Col md={12}>
-            <Panel
-              controller = {this.controller}
-              loginStatus = {this.props.status}
-              title = {this.props.panelTitle}
-              titleComponentClass = {this.props.panelTitleComponentClass}
-              expanded = {this.props.panelInitiallyExpanded}
-              bsStyle = {this.props.panelBsStyle}
-              content = {this.props.panelContentComponent}
-            />
-          </Col>
-        </Row>
-      </Grid>
-    );
-  }
-});
+    // send save message
+    //   response handler subscription - on('saveDataRow') - will be in parent component (ATableMaint)
 
-module.exports = Container;
+    controller.send({
+      type: 'saveDataRow',
+      params: {
+        id: id,
+        property_1: self.property_1,
+        property_2: self.property_2,
+      }
+    });
+
+  };
+
+  return controller;
+};

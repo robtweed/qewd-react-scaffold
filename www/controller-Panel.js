@@ -24,20 +24,20 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  5 January 2018
+ 10 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
 
-  component.onNewProps = function(newProps) {
+  this.onNewProps = function(newProps) {
     //console.log('MainPanel newProps: ' + JSON.stringify(newProps));
   };
 
-  component.expanded = component.props.expanded;
-  component.titleText = component.props.title;
+  this.expanded = this.props.expanded;
+  this.titleText = this.props.title;
 
-  component.onToggle = function() {};
+  this.onToggle = function() {};
 
   return controller;
 };

@@ -50,15 +50,7 @@ lead-in for your applications (assuming you're happy with the UI look and feel).
         cp ~/qewd-react-scaffold/www/* .
         cp ~/qewd-react-scaffold/example/app.js .
         cp ~/qewd-react-scaffold/example/TestContent.js .
-        cp ~/qewd-react-scaffold/example/backend.js ~/qewd/node_modules/testapp.js
-
-### Change the name of the application in the app.js file
-
-        var reactLoader = require('qewd-react').loader;
-        
-        var params = {
-          applicationName: 'testapp',
-          ... etc
+        cp ~/qewd-react-scaffold/example/testApp.js ~/qewd/node_modules/testApp.js
 
 ## Notes
 
@@ -88,31 +80,19 @@ You build out your application from this content component and via any other Nav
 You'll need to be able to compile your application's components into a single bundle.js file.  See
 [this presentation](https://www.slideshare.net/robtweed/ewd-3-training-course-part-37-building-a-reactjs-application-with-ewdxpress-part-4)
 
-In summary, you'll need to do the following to install the necessary stuff:
+In summary, you'll need to do the following to install the necessary React source and build stuff:
 
 - You'll need to have installed QEWD.js of course
 - Do the following:
 
         cd ~/qewd
-        npm install babel-core babelify babel-preset-react qewd-react
-        npm install -g browserify
-        npm install -g uglify-js
-
-- Switch to your application folder, eg:
-
-        cd ~/qewd/www/myNewApp
-
-- Then:
-
-        npm install babel-preset-es2015
-
-
-That's usually enough to get you going.
+        wget https://raw.githubusercontent.com/robtweed/qewd/master/installers/reactEnvironment.sh
+        source reactEnvironemt.sh
 
 To bundle your application:
 
         cd ~/qewd/www/myNewApp
-        browserify -t [ babelify --compact false --presets [es2015 react] ] app.js > bundle.js
+        browserify -o bundle.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] --plugins [ @babel/plugin-transform-classes ] ] app.js
 
 You should now see bundle.js in the ~/qewd/www/myNewApp folder
 
@@ -129,7 +109,7 @@ Note: when developing out your application, every time you make a change to your
 
 ## License
 
- Copyright (c) 2017 M/Gateway Developments Ltd,                           
+ Copyright (c) 2017-18 M/Gateway Developments Ltd,                           
  Redhill, Surrey UK.                                                      
  All rights reserved.                                                     
                                                                            

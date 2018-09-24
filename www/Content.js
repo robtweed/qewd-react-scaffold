@@ -24,7 +24,7 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  5 January 2018
+ 10 September 2018
 
 */
 
@@ -45,19 +45,17 @@ var Content = createReactClass({
   },
 
   componentWillMount: function() {
-    this.controller = require('./controller-Content')(this.props.controller, this);
+    this.controller = require('./controller-Content').call(this, this.props.controller);
   },
 
   componentWillReceiveProps: function(newProps) {
     this.onNewProps(newProps);
   },
 
-
-
   render: function() {
 
-    //console.log('rendering Content - this.status = ' + this.status);
-    //var componentPath = this.controller.updateComponentPath(this);
+    console.log('rendering Content - this.status = ' + this.status);
+    //var componentPath = this.controller.updateComponentPath.call(this);
 
     if (this.status === 'initial') {
       return (

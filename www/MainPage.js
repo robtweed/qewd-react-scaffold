@@ -24,7 +24,7 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  5 January 2018
+  22 September 2018
 
 */
 
@@ -52,7 +52,7 @@ var MainPage = createReactClass({
   },
 
   componentWillMount: function() {
-    this.controller = require('./controller-MainPage')(this.props.controller, this);
+    this.controller = require('./controller-MainPage').call(this, this.props.controller);
   },
 
   render: function() {
@@ -84,7 +84,7 @@ var MainPage = createReactClass({
         />
 
         <ToastContainer 
-          ref="toastContainer"
+          ref={ref => this.toastContainer = ref}
           className="toast-top-right"
           newestOnTop={true}
           target="body"

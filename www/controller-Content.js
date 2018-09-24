@@ -24,18 +24,20 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  7 February 2017
+ 10 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
 
-  component.onNewProps = function(newProps) {
-    component.status = newProps.status;
+  var self = this;
+
+  this.onNewProps = function(newProps) {
+    self.status = newProps.status;
   };
 
-  component.status = component.props.status;
-  component.navs = controller.app.navs;
+  this.status = this.props.status;
+  this.navs = controller.app.navs;
 
   return controller;
 };

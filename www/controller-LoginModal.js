@@ -24,37 +24,39 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  7 February 2017
+ 10 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
 
-  component.password = '';
-  component.username = '';
+  var self = this;
+
+  this.password = '';
+  this.username = '';
 
   controller.LoginModal = {
     onLoginFieldChange: function(inputObj) {
       //console.log('onFieldChange - ' + inputObj.ref + '; ' + inputObj.value);
-      component[inputObj.ref] = inputObj.value;
+      self[inputObj.ref] = inputObj.value;
     }
   };
 
-  component.handleKeyDown = function(e) {
+  this.handleKeyDown = function(e) {
     // enter key pressed
     if (e.charCode === 13) {
-      component.handleLogin();
+      self.handleLogin();
     }
   };
 
-  component.handleLogin = function() {
+  this.handleLogin = function() {
 
-    if (component.username === '') {
+    if (typeof self.username !== 'string' || self.username === '') {
       controller.displayError('You must enter your username');
       return;
     }
 
-    if (component.password === '') {
+    if (typeof self.password !== 'string' || self.password === '') {
       controller.displayError('You must enter your password');
       return;
     }
@@ -65,39 +67,40 @@ module.exports = function (controller, component) {
     controller.send({
       type: 'login',
       params: {
-        username: component.username,
-        password: component.password
+        username: self.username,
+        password: self.password
       }
     });
+
   };
 
-  component.modalTitle = 'Login';
-  component.username = {
-    placeholder: 'Enter your username',
-    label: 'Username'
+  this.modalTitle = 'Login';
+  this.username = {
+    placeholder: 'Enter your Email Address',
+    label: 'Email Address'
   };
-  component.password = {
+  this.password = {
     placeholder: 'Enter your password',
     label: 'Password'
   };
   if (controller.app.loginModal) {
     if (controller.app.loginModal.title) {
-      component.modalTitle = controller.app.loginModal.title;
+      this.modalTitle = controller.app.loginModal.title;
     }
     if (controller.app.loginModal.username) {
       if (controller.app.loginModal.username.label) {
-        component.username.label = controller.app.loginModal.username.label;
+        this.username.label = controller.app.loginModal.username.label;
       }
       if (controller.app.loginModal.username.placeholder) {
-        component.username.placeholder = controller.app.loginModal.username.placeholder;
+        this.username.placeholder = controller.app.loginModal.username.placeholder;
       }
     }
     if (controller.app.loginModal.password) {
       if (controller.app.loginModal.password.label) {
-        component.password.label = controller.app.loginModal.password.label;
+        this.password.label = controller.app.loginModal.password.label;
       }
       if (controller.app.loginModal.password.placeholder) {
-        component.password.placeholder = controller.app.loginModal.password.placeholder;
+        this.password.placeholder = controller.app.loginModal.password.placeholder;
       }
     }
   }

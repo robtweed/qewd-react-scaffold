@@ -24,21 +24,21 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  7 February 2017
+ 10 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
 
   console.log('controller shutdown!');
 
-  component.title = controller.app.title;
+  this.title = controller.app.title;
 
-  console.log('title = ' + component.title);
-  component.buttonText = 'Restart ' + component.title;
+  console.log('title = ' + this.title);
+  this.buttonText = 'Restart ' + this.title;
   if (controller.app.shutdown) {
     if (controller.app.shutdown.buttonText) {
-      component.buttonText = controller.app.shutdown.buttonText;
+      this.buttonText = controller.app.shutdown.buttonText;
     }
   }
 

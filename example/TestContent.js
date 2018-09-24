@@ -24,7 +24,7 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  4 January 2018
+  22 September 2018
 
 */
 
@@ -54,7 +54,7 @@ var TestContent = createReactClass({
   },
 
   componentWillMount: function() {
-    //this.controller = require('./controller-SessionsPanel')(this.props.controller, this);
+    //this.controller = require('./controller-TestContent').call(this, this.props.controller);
   },
 
   componentDidMount: function() {
@@ -68,7 +68,7 @@ var TestContent = createReactClass({
 
     //var componentPath = this.controller.updateComponentPath(this);
 
-   //console.log('rendering SessionsPanel: ' + JSON.stringify(this.sessionData));
+   //console.log('rendering TestContent: ' + JSON.stringify(this.sessionData));
 
     return (
       <span>

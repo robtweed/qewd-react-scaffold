@@ -24,67 +24,56 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
- 10 September 2018
+  22 September 2018
 
 */
 
-"use strict"
+module.exports = {
 
-var React = require('react');
-var createReactClass = require('create-react-class');
-var ReactBootstrap = require('react-bootstrap');
-var {
-  Grid,
-  Row,
-  Col
-} = ReactBootstrap;
+  handlers: {
+    login: function(messageObj, session, send, finished) {
+      var password = messageObj.params.password;
+      if (!password || password === '') {
+        finished({error: 'You must enter a password'});
+        return;
+      }
 
-var Panel = require('./Panel');
+      if (true) {
+        // no authentication database set up, so use QEWD management password
 
-var Container = createReactClass({
-
-  getInitialState: function() {
-    return {
-      status: 'initial'
+        if (password === this.userDefined.config.managementPassword) {
+          session.timeout = 20 * 60;
+          session.authenticated = true;
+          finished({ok: true});    
+        }
+        else {
+          finished({error: 'Invalid login attempt'});
+        }
+        return;
+      }
+      else {
+        // use your own authentication credentials document
+        var username = messageObj.params.username;
+        if (!username || username === '') {
+          finished({error: 'You must enter a username'});
+          return;
+        }
+        var userCredentials = credentialsDoc.$(username);
+        if (!userCredentials.exists) {
+          // username not recognised
+          finished({error: 'Invalid login attempt'});
+          return;
+        }
+        if (digest(password) !== userCredentials.$('password').value) {
+          // username ok but wrong password
+          finished({error: 'Invalid login attempt'});
+          return;
+        }
+        session.timeout = 20 * 60;
+        session.authenticated = true;
+        finished({ok: true});
+        return;
+      }
     }
-  },
-
-  componentWillMount: function() {
-    this.controller = require('./controller-Container').call(this, this.props.controller);
-  },
-
-  componentWillReceiveProps: function(newProps) {
-    this.onNewProps(newProps);
-  },
-
-  render: function() {
-
-    //var componentPath = this.controller.updateComponentPath(this);
-    //console.log('OverviewContainer - this.hideContainer = ' + this.hideContainer);
-
-    console.log('Container props: ' + JSON.stringify(this.props));
-
-    return (
-      <Grid
-        fluid = {true}
-        className = {this.hideContainer ? 'hidden' : ''}
-      >
-        <Row>
-          <Col md={12}>
-            <Panel
-              controller = {this.controller}
-              loginStatus = {this.props.status}
-              title = {this.props.panelTitle}
-              titleComponentClass = {this.props.panelTitleComponentClass}
-              expanded = {this.props.panelInitiallyExpanded}
-              bsStyle = {this.props.panelBsStyle}
-              content = {this.props.panelContentComponent}
-            />
-          </Col>
-        </Row>
-      </Grid>
-    );
   }
-});
-
-module.exports = Container;
+};

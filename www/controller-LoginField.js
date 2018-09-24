@@ -24,19 +24,21 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  7 February 2017
+ 10 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
 
-  component.handleChange = function(e) {
+  var self = this;
+
+  this.handleChange = function(e) {
     // update display of field in input component:
 
-    var fieldName = component.props.fieldname;
+    var fieldName = self.props.fieldname;
     var value = e.target.value;
 
-    component.setState({
+    self.setState({
       value: value
     });
 
@@ -48,11 +50,11 @@ module.exports = function (controller, component) {
     });
   };
 
-  component.validationState = function() {
-    if (component.state.value.length === 0) return 'error';
+  this.validationState = function() {
+    if (self.state.value.length === 0) return 'error';
   };
 
-  component.autofocus = component.props.focus;
+  this.autofocus = this.props.focus;
 
   return controller;
 };

@@ -24,7 +24,7 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  4 January 2018
+ 10 September 2018
 
 */
 
@@ -42,12 +42,12 @@ var {
 var Banner = createReactClass({
 
   componentWillMount: function() {
-    this.controller = require('./controller-Banner')(this.props.controller, this);
+    this.controller = require('./controller-Banner').call(this, this.props.controller);
   },
 
   render: function() {
     //console.log('render Banner');
-    //this.props.controller.updateComponentPath(this);
+    //this.props.controller.updateComponentPath.call(this);
 
 
     var navItems = [];

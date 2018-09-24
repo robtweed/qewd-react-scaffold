@@ -24,13 +24,14 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  5 January 2018
+ 10 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
 
-  controller.log = true;
+  this.log = true;
+  var self = this;
 
   controller.formFieldHandler = function(formModuleName, fieldName) {
     var self = this;
@@ -45,8 +46,8 @@ module.exports = function (controller, component) {
   };
 
   controller.toastr = function(type, text) {
-    if (type && type !== '' && component.refs && component.refs.toastContainer && component.refs.toastContainer[type]) {
-      component.refs.toastContainer[type](text);
+    if (type && type !== '' && self.toastContainer && self.toastContainer[type]) {
+      self.toastContainer[type](text);
     }
   };
 
@@ -57,7 +58,9 @@ module.exports = function (controller, component) {
   // display generic EWD.js errors using toastr:
 
   controller.on('error', function(messageObj) {
+    console.log('&&& error event: messageObj = ' + JSON.stringify(messageObj));
     var error = messageObj.message.error || messageObj.message;
+    console.log('displayError: ' + error);
     controller.displayError(error);
   });
 
@@ -65,11 +68,17 @@ module.exports = function (controller, component) {
   // component to force re-render of main page
 
   controller.on('login', function(messageObj) {
+    console.log('login event triggered');
     if (!messageObj.message.error && messageObj.message.ok) {
       // logged in
-      component.showLoginModal = false;
-      component.setState({
-        status: 'loggedIn'
+
+      self.showLoginModal = false;
+      var status = messageObj.message.mode || 'loggedIn';
+
+      controller.userMode = messageObj.message.mode || 'unknown';
+      console.log('status = ' + status);
+      self.setState({
+        status: status
       });
     }
   });
@@ -77,20 +86,13 @@ module.exports = function (controller, component) {
 
   controller.on('logout', function() {
     controller.disconnectSocket();
-    component.setState({
+    self.setState({
       status: 'shutdown'
     });
   });
 
-  /*
-  controller.on('main', function() {
-    component.setState({
-      status: 'main'
-    });
-  });
-  */
 
-  component.navs = [
+  this.navs = [
     {
       text: 'Main',
       eventKey: 'main',
@@ -101,13 +103,13 @@ module.exports = function (controller, component) {
     }
   ];
 
-  if (component.props.config && component.props.config.navs) {
-    component.navs = component.props.config.navs
+  if (this.props.config && this.props.config.navs) {
+    this.navs = this.props.config.navs
   }
 
-  component.navs.forEach(function(nav) {
+  this.navs.forEach(function(nav) {
     controller.on(nav.eventKey, function() {
-      component.setState({
+      self.setState({
         status: nav.eventKey
       });
     });
@@ -119,28 +121,27 @@ module.exports = function (controller, component) {
     if (!nav.panel.titleComponentClass) nav.panel.titleComponentClass = 'h3';
   });
 
-  if (component.navs.length === 1) {
-    if (!component.navs[0].default) component.navs[0].default = true;
+  if (this.navs.length === 1) {
+    if (!this.navs[0].default) this.navs[0].default = true;
   }
 
   controller.navOptionSelected = function(eventKey) {
     controller.emit(eventKey);
   };
 
-  controller.app = component.props.config || {};
-  if (!controller.app.navs) controller.app.navs = component.navs;
+  controller.app = this.props.config || {};
+  if (!controller.app.navs) controller.app.navs = this.navs;
   if (!controller.app.title) controller.app.title = 'Un-named Application';
 
   if (controller.app.loginModal && controller.app.mode !== 'local') {
-    component.showLoginModal = true;
+    this.showLoginModal = true;
   }
   else {
-    component.showLoginModal = false;
-    component.setState({
+    this.showLoginModal = false;
+    this.setState({
       status: 'loggedIn'
     });
   }
-
 
   return controller;
 };

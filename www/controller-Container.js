@@ -24,19 +24,21 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  9 February 2017
+ 10 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
 
-  component.onNewProps = function(newProps) {
-    component.hideContainer = (newProps.status !== component.props.eventKey);
+  var self = this;
+
+  this.onNewProps = function(newProps) {
+    self.hideContainer = (newProps.status !== self.props.eventKey);
   };
 
   // display the overview panel when first rendered after login
 
-  component.hideContainer = component.props.hideByDefault;
+  this.hideContainer = this.props.hideByDefault;
 
   return controller;
 };

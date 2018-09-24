@@ -24,7 +24,7 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  4 January 2018
+ 10 September 2018
 
 */
 
@@ -41,8 +41,7 @@ var {
   FormControl,
   FormGroup,
   Glyphicon,
-  InputGroup,
-  OverlayTrigger
+  InputGroup
 } = ReactBootstrap;
 
 var FormField = createReactClass({
@@ -54,14 +53,12 @@ var FormField = createReactClass({
   },
 
   componentWillMount: function() {
-    this.controller = require('./controller-FormField')(this.props.controller, this);
+    this.controller = require('./controller-FormField').call(this, this.props.controller);
   },
 
   componentWillReceiveProps: function(newProps) {
-    //console.log('FormField: newProps - ' + JSON.stringify(newProps));
-    
-    this.value = newProps.value || '';
-    
+    console.log('FormField: newProps - ' + JSON.stringify(newProps));
+    this.newProps(newProps);
   },
 
   render: function() {
@@ -81,7 +78,6 @@ var FormField = createReactClass({
               autoFocus = {this.autofocus}
               componentClass={this.props.type}
               placeholder={this.props.placeholder}
-              ref={this.props.fieldname}
               onChange={this.handleChange}
               style = {style}
               value = {this.value}
@@ -97,7 +93,6 @@ var FormField = createReactClass({
             autoFocus = {this.autofocus}
             componentClass={this.props.type}
             placeholder={this.props.placeholder}
-            ref={this.props.fieldname}
             onChange={this.handleChange}
             value = {this.value}
           />
@@ -141,7 +136,6 @@ var FormField = createReactClass({
               value={this.value}
               placeholder={this.props.placeholder}
               bsStyle={this.validationState()}
-              ref={this.props.fieldname}
               onChange={this.handleChange}
             />
             <FormControl.Feedback />
@@ -169,7 +163,6 @@ var FormField = createReactClass({
               value={this.value}
               placeholder={this.props.placeholder}
               bsStyle={this.validationState()}
-              ref={this.props.fieldname}
               onChange={this.handleChange}
             />
             <FormControl.Feedback />
@@ -198,7 +191,6 @@ var FormField = createReactClass({
           value={this.value}
           placeholder={this.props.placeholder}
           bsStyle={this.validationState()}
-          ref={this.props.fieldname}
           onChange={this.handleChange}
         />
         <FormControl.Feedback />

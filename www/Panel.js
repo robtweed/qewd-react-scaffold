@@ -24,7 +24,7 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  5 January 2018
+ 10 September 2018
 
 */
 
@@ -37,8 +37,7 @@ var ReactBootstrap = require('react-bootstrap');
 var {
   Panel,
   Grid,
-  Row,
-  Col
+  Row
 } = ReactBootstrap;
 
 
@@ -52,11 +51,14 @@ var Pane = createReactClass({
 
   componentWillMount: function() {
 
-    this.controller = require('./controller-Panel')(this.props.controller, this);
+    this.controller = require('./controller-Panel').call(this, this.props.controller);
 
     if (this.props.content) {
       //console.log('this.props.content exists');
-      this.content = React.createElement(this.props.content, {controller: this.controller});
+      this.content = React.createElement(this.props.content, {
+        controller: this.controller,
+        loginStatus: this.props.loginStatus
+      });
     }
     else {
       //console.log('this.props.content doesnt exist');
@@ -74,7 +76,7 @@ var Pane = createReactClass({
 
   render: function() {
 
-    //var componentPath = this.controller.updateComponentPath(this);
+    //var componentPath = this.controller.updateComponentPath.call(this);
 
     //console.log('Panel props: ' + JSON.stringify(this.props));
 

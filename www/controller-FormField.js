@@ -24,36 +24,60 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  7 February 2017
+ 10 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
 
-  component.handleChange = function(e) {
+  var self = this;
+
+  console.log('this.props.formModule = ' + this.props.formModule);
+
+  if (this.props.formModule && this.props.value && this.props.fieldname) {
+    controller[this.props.formModule].onFieldChange({
+      value: self.props.value,
+      ref: self.props.fieldname
+    });
+  }
+
+  this.newProps = function(newProps) {
+    self.value = newProps.value || '';
+
+    if (newProps.formModule && newProps.value && newProps.fieldname) {
+      controller[newProps.formModule].onFieldChange({
+        value: newProps.value,
+        ref: newProps.fieldname
+      });
+      console.log('updated controller[' + newProps.formModule + ']: value = ' + newProps.value);
+    }
+
+  };
+
+  this.handleChange = function(e) {
     // update display of field in input component:
 
-    var fieldName = component.props.fieldname;
-    component.value = e.target.value;
+    var fieldName = self.props.fieldname;
+    self.value = e.target.value;
 
-    component.setState({
+    self.setState({
       status: 'updated'
     });
 
     // and then pass up to parent component:
 
-    controller[component.props.formModule].onFieldChange({
-      value: component.value,
+    controller[self.props.formModule].onFieldChange({
+      value: self.value,
       ref: fieldName
     });
   };
 
-  component.validationState = function() {
-    if (component.value.length === 0) return 'error';
+  this.validationState = function() {
+    if (self.value.length === 0) return 'error';
   };
 
-  component.autofocus = component.props.focus;
-  component.value = component.props.value || '';
+  this.autofocus = this.props.focus;
+  this.value = this.props.value || '';
 
   return controller;
 };

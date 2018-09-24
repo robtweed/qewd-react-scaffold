@@ -33,15 +33,16 @@
 var React = require('react');
 var createReactClass = require('create-react-class');
 var ReactBootstrap = require('react-bootstrap');
+
 var {
-  Grid,
-  Row,
-  Col
+  Button,
+  ButtonGroup,
+  Glyphicon,
+  OverlayTrigger,
+  Tooltip
 } = ReactBootstrap;
 
-var Panel = require('./Panel');
-
-var Container = createReactClass({
+var ATableRow = createReactClass({
 
   getInitialState: function() {
     return {
@@ -50,7 +51,24 @@ var Container = createReactClass({
   },
 
   componentWillMount: function() {
-    this.controller = require('./controller-Container').call(this, this.props.controller);
+    this.controller = require('./controller-ATableRow').call(this, this.props.controller);
+
+    this.editTooltip = (
+      <Tooltip 
+        id = "editBtn"
+      >
+        Edit this Client
+      </Tooltip>
+    );
+
+    this.deleteTooltip = (
+      <Tooltip 
+        id = "untagBtn"
+      >
+        Delete This Client
+      </Tooltip>
+    );
+
   },
 
   componentWillReceiveProps: function(newProps) {
@@ -59,32 +77,55 @@ var Container = createReactClass({
 
   render: function() {
 
+    console.log('Rendering ATableRow');
     //var componentPath = this.controller.updateComponentPath(this);
-    //console.log('OverviewContainer - this.hideContainer = ' + this.hideContainer);
-
-    console.log('Container props: ' + JSON.stringify(this.props));
 
     return (
-      <Grid
-        fluid = {true}
-        className = {this.hideContainer ? 'hidden' : ''}
-      >
-        <Row>
-          <Col md={12}>
-            <Panel
-              controller = {this.controller}
-              loginStatus = {this.props.status}
-              title = {this.props.panelTitle}
-              titleComponentClass = {this.props.panelTitleComponentClass}
-              expanded = {this.props.panelInitiallyExpanded}
-              bsStyle = {this.props.panelBsStyle}
-              content = {this.props.panelContentComponent}
-            />
-          </Col>
-        </Row>
-      </Grid>
+      <tr>
+        <td>
+            {this.props.data.col1}
+        </td>
+        <td>
+            {this.props.data.client_col2}
+        </td>
+        <td>
+          <ButtonGroup
+            bsClass="pull-right"
+          >
+            <OverlayTrigger 
+              placement="top" 
+              overlay={this.editTooltip}
+            >
+              <Button 
+                bsStyle="info"
+                onClick = {this.editRowData}
+                bsSize="small"
+              >
+                <Glyphicon 
+                  glyph="info-sign"
+                />
+              </Button>
+            </OverlayTrigger>
+
+            <OverlayTrigger 
+              placement="top" 
+              overlay={this.deleteTooltip}
+            >
+              <Button 
+                bsStyle="danger"
+                onClick = {this.deleteRowData}
+                bsSize="small"
+              >
+                <Glyphicon 
+                  glyph="scissors"
+                />
+              </Button>
+            </OverlayTrigger>
+          </ButtonGroup>
+        </td>
+      </tr>
     );
   }
 });
 
-module.exports = Container;
+module.exports = ATableRow;

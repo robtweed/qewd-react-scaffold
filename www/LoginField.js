@@ -24,7 +24,7 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  4 January 2018
+ 10 September 2018
 
 */
 
@@ -47,13 +47,19 @@ var LoginField = createReactClass({
   },
 
   componentWillMount: function() {
-    this.controller = require('./controller-LoginField')(this.props.controller, this);
+    this.controller = require('./controller-LoginField').call(this, this.props.controller);
   },
 
   render: function() {
 
     //console.log('LoginField rendering');
     //this.controller.updateComponentPath(this);
+
+    if (this.props.hide === true) {
+      return (
+        <span></span>
+      );
+    }
 
     return (
       <FormGroup>
@@ -64,7 +70,7 @@ var LoginField = createReactClass({
           value={this.state.value}
           placeholder={this.props.placeholder}
           bsStyle={this.validationState()}
-          ref={this.props.fieldname}
+          /*ref={this.props.fieldname}*/
           onChange={this.handleChange}
         />
         <FormControl.Feedback />

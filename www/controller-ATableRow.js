@@ -28,63 +28,24 @@
 
 */
 
-"use strict"
+module.exports = function (controller) {
 
-var React = require('react');
-var createReactClass = require('create-react-class');
-var ReactBootstrap = require('react-bootstrap');
-var {
-  Grid,
-  Row,
-  Col
-} = ReactBootstrap;
+  var self = this;
 
-var Panel = require('./Panel');
+  this.onNewProps = function(newProps) {
+  };
 
-var Container = createReactClass({
-
-  getInitialState: function() {
-    return {
-      status: 'initial'
-    }
-  },
-
-  componentWillMount: function() {
-    this.controller = require('./controller-Container').call(this, this.props.controller);
-  },
-
-  componentWillReceiveProps: function(newProps) {
-    this.onNewProps(newProps);
-  },
-
-  render: function() {
-
-    //var componentPath = this.controller.updateComponentPath(this);
-    //console.log('OverviewContainer - this.hideContainer = ' + this.hideContainer);
-
-    console.log('Container props: ' + JSON.stringify(this.props));
-
-    return (
-      <Grid
-        fluid = {true}
-        className = {this.hideContainer ? 'hidden' : ''}
-      >
-        <Row>
-          <Col md={12}>
-            <Panel
-              controller = {this.controller}
-              loginStatus = {this.props.status}
-              title = {this.props.panelTitle}
-              titleComponentClass = {this.props.panelTitleComponentClass}
-              expanded = {this.props.panelInitiallyExpanded}
-              bsStyle = {this.props.panelBsStyle}
-              content = {this.props.panelContentComponent}
-            />
-          </Col>
-        </Row>
-      </Grid>
-    );
+  this.deleteRowData = function() {
+    // emit event to Overall Panel Comonent (that contains the Table)
+    console.log('data: ' + JSON.stringify(self.props.data, null, 2));
+    controller.emit('deleteRowData', self.props.data);
   }
-});
 
-module.exports = Container;
+  this.editRowData = function() {
+    // emit event to Overall Panel Comonent (that contains the Table)
+    console.log('data: ' + JSON.stringify(self.props.data, null, 2));
+    controller.emit('editRowData', self.props.data);
+  }
+
+  return controller;
+};

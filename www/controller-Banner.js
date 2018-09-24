@@ -24,13 +24,13 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  7 February 2017
+ 10 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
 
-  component.navs = controller.app.navs;
+  this.navs = controller.app.navs;
 
   return controller;
 };

@@ -33,15 +33,14 @@
 var React = require('react');
 var createReactClass = require('create-react-class');
 var ReactBootstrap = require('react-bootstrap');
+var FormField = require('./FormField');
+
 var {
-  Grid,
-  Row,
-  Col
+  Button,
+  Panel
 } = ReactBootstrap;
 
-var Panel = require('./Panel');
-
-var Container = createReactClass({
+var EditRowData = createReactClass({
 
   getInitialState: function() {
     return {
@@ -50,41 +49,85 @@ var Container = createReactClass({
   },
 
   componentWillMount: function() {
-    this.controller = require('./controller-Container').call(this, this.props.controller);
+    this.controller = require('./controller-EditRowData').call(this, this.props.controller);
+
+    this.title = (
+      <span>
+          <b>{this.props.title}</b>
+          <Button 
+            bsClass="btn btn-primary pull-right"
+            onClick = {this.cancel}
+          >
+            Cancel
+          </Button>
+      </span>
+    );
   },
 
+  componentDidMount: function() {
+  },
+  
   componentWillReceiveProps: function(newProps) {
-    this.onNewProps(newProps);
+    console.log('EditClient receiving new props: ' + JSON.stringify(newProps));
+    this.title = (
+      <span>
+          <b>{newProps.title}</b>
+          <Button 
+            bsClass="btn btn-primary pull-right"
+            onClick = {this.cancel}
+          >
+            Cancel
+          </Button>
+      </span>
+    );
   },
 
   render: function() {
 
-    //var componentPath = this.controller.updateComponentPath(this);
-    //console.log('OverviewContainer - this.hideContainer = ' + this.hideContainer);
-
-    console.log('Container props: ' + JSON.stringify(this.props));
+    console.log('rendering EditRowData - show = ' + this.props.show);
 
     return (
-      <Grid
-        fluid = {true}
-        className = {this.hideContainer ? 'hidden' : ''}
+      <div
+        className = {this.props.show}
       >
-        <Row>
-          <Col md={12}>
-            <Panel
+        <Panel
+          bsStyle="info"
+        >
+          <Panel.Heading>
+   	     {this.title}
+          </Panel.Heading>
+          <Panel.Body>
+
+            <FormField
+              fieldname='property_1'
+              label='Property 1'
+              type='text'
               controller = {this.controller}
-              loginStatus = {this.props.status}
-              title = {this.props.panelTitle}
-              titleComponentClass = {this.props.panelTitleComponentClass}
-              expanded = {this.props.panelInitiallyExpanded}
-              bsStyle = {this.props.panelBsStyle}
-              content = {this.props.panelContentComponent}
+              focus={true}
+              value = {this.props.data.property_1}
+              formModule = 'EditRowData'
             />
-          </Col>
-        </Row>
-      </Grid>
+            <FormField
+              fieldname='property_2'
+              label='Property 2'
+              type='static'
+              controller = {this.controller}
+              focus={false}
+              value = {this.props.property_2}
+            />
+
+            <Button 
+              bsClass="btn btn-success"
+              onClick = {this.saveRowData}
+            >
+              Save
+            </Button>
+
+          </Panel.Body>
+        </Panel>
+      </div>
     );
   }
 });
 
-module.exports = Container;
+module.exports = EditRowData;
